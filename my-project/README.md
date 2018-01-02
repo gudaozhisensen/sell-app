@@ -8,6 +8,8 @@
 # install dependencies
 npm install
 
+host ip被我改了 改成我自己电脑的ip 需要的话在index.js中修改为自己电脑的ip或者localhost就行
+
 # serve with hot reload at localhost:8080
 npm run dev
 
