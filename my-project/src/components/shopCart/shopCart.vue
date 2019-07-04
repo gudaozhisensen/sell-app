@@ -3,15 +3,16 @@
         <div class="shop-content">
             <div class="content-left">
                 <div class="logo-wrapper">
-                    <div class="shop-logo">
-                        <span class="icon-shopping_cart"></span>
+                    <div class="shop-logo" :class="{'highLight':totalCount > 0}">
+                        <i class="icon-shopping_cart" :class="{'highLight':totalCount > 0}"></i>
                     </div>
+                    <div class="num" v-show="totalCount>0">{{totalCount}}</div>
                 </div>
-                <div class="shop-price">￥45元</div>
+                <div class="shop-price" :class="{'highLight':totalPrice > 0}">￥{{totalPrice}}元</div>
                 <div class="shop-desc">另需配送费￥{{deliveryPrice}}元</div>
             </div>
             <div class="content-right">
-                <div class="shop-pay">￥{{minPrice}}元起送</div>
+                <div class="shop-pay" :class="payClass">{{payDesc}}</div>
                 </div> 
        </div>
     </div>
@@ -19,13 +20,55 @@
 
 <script>
 export default {
+    //从父组件转递的数据
     props: {
+        selectFoods:{
+            type: Array,
+            default(){
+                return [];
+            }
+        },
     deliveryPrice: {
       type: Number
     },
     minPrice:{
         type:Number
     }
+  },
+  computed: {
+      totalPrice()  {
+          let total = 0;
+          this.selectFoods.forEach((food) => {
+              total += food.price * food.count;
+          });
+          return total;
+      },
+      totalCount(){
+          let count = 0;
+          this.selectFoods.forEach((food) => {
+              count += food.count;
+          });
+          return count;
+      },
+      payDesc(){
+          if (this.totalPrice === 0) {
+              //ES6中字符串的扩展``,把变量用${}的方式传入" `` "中,没有变量时用普通'' 传递,因为ES6-lint会
+              return `￥${this.minPrice}元起送`;
+          }else if (this.totalPrice < this.minPrice) {
+              let diff = this.minPrice - this.totalPrice;
+              return `还差￥${diff}起送`;
+              
+          }else{
+              return '去结算';
+          }
+      },
+      payClass(){
+          if (this.totalPrice < this.minPrice) {
+              return 'not-enough';
+          }else{
+              return 'enough';
+          }
+      }
   }
 }
 </script>
@@ -61,6 +104,21 @@ export default {
         border-radius: 50%;
         background: #141d17;
     }
+    .num{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 24px;
+        height: 16px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 16px;
+        font-size: 9px;
+        font-weight: 700px;
+        color: #fff;
+        background: rgba(240,20,20);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
     .shop-logo{
         width: 100%;
         height: 100%;
@@ -68,11 +126,16 @@ export default {
         text-align: center;
         background: #2b343c;
     }
+    .shop-logo>.highLight{
+        background: rgb(0, 160, 200);
+    }
     .icon-shopping_cart{
        font-size: 24px;
        line-height: 44px;
        color: #80858a;
-       
+    }
+    .icon-shopping_cart>.highLight{
+        color: #fff;
     }
     .shop-price{
         display: inline-block;
@@ -85,6 +148,9 @@ export default {
         font-size: 16px;
         font-weight: 700;
          
+    }
+    .shop-price>.highLight{
+        color: #fff;
     }
     .shop-desc{
         display: inline-block;
@@ -105,5 +171,12 @@ export default {
         font-size: 12px;
         font-weight: 700px;
         background: #2b333b;
+    }
+    .not-enough{
+        background: #2b33bb;
+    }
+    .enough{
+        background: #00b43c;
+        color: #000;
     }
 </style>
