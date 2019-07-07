@@ -27,19 +27,24 @@
                 </div>
                 <div class="price">
                   <span class="newPrice">￥{{food.price}}</span><span v-show="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span>
+                  <div class="cartControl-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div> 
                 </div>
+                              
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 <script type="text/javascript">
 import BScroll from "better-scroll";
-import shopcart from "@/components/shopCart/shopCart"
+import shopcart from "@/components/shopCart/shopCart";
+import cartcontrol from "@/components/cartControl/cartControl"
 const ERR_OK = 0;
 export default {
   props: {
@@ -66,6 +71,18 @@ export default {
           }
       }
        return 0;
+    },
+    selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) =>{
+            if (food.count) {
+              foods.push(food);
+             
+            }
+          });
+        });
+        return foods;
     }
   },
   created() {
@@ -83,7 +100,8 @@ export default {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
   components:{
-    shopcart
+    shopcart,
+    cartcontrol
   },
   methods: {
     
@@ -93,6 +111,7 @@ export default {
       });
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
         probeType: 3,//实时监控scroll位置
+        click:true
        
       });
      
@@ -205,6 +224,7 @@ export default {
   }
   .foods-wrapper {
     flex: 1;
+    }
     .title {
       display: block;
       height: 26px;
@@ -221,7 +241,7 @@ export default {
     .food-item {
       display: flex;
       margin: 18px;
-	 // padding-bottom:18px; 
+      } 
 
       .food-icon {
         padding-right:10px
@@ -230,7 +250,7 @@ export default {
       .food-content {
         flex: 1;
         margin-top: 2px;
-        
+      }
         // .name,.desc{
         // 	padding-bottom: 8px;
         // }
@@ -250,27 +270,37 @@ export default {
         	line-height: 12px;
         }
         .extra :first-child{
-			margin-right: 10px;
+			    margin-right: 10px;
         }
-        .price :first-child{
-        	padding-right: 8px;
-        }
+        
+        
         .price{
         	font-weight: normal;
         	line-height: 24px;
+          position relative;
+        }
         	.newPrice{
         		font-size: 14px;
         		color: rgb(240,20,20);
+            
         	}
         	.oldPrice{
-        		text-decoration: line-through;1
+        		text-decoration: line-through;
+            padding-left: 8px;
         		font-size: 10px;
         		color: rgb(147,153,159);
         	}
-        }
-      }
-    }
-  }
+       
+
+
+        .cartControl-wrapper{
+          position absolute;
+          right:0;
+          bottom: -10px;
+          }
+      
+    
+  
 }
 
 </style>
