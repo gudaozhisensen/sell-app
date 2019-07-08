@@ -28,7 +28,7 @@ export default {
   },
   created() {
     {
-      // GET /someUrl
+      // GET /someUrl 对象初始化的添加数据,数据传递的阶段
       this.$http.get('/api/seller').then(response => {
         // get body data
         response = response.body;

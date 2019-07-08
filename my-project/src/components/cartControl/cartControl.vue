@@ -1,7 +1,7 @@
 <template>
     <div class="cartcontrol">
         <div class="cart-decrease" v-show="food.count>0" @click="decreaseCart"><transition name="move"></transition><span class="inner icon-remove_circle_outline"></span></div>
-        <div class="cart-count " v-show="food.count>0">{{food.count}}</div>
+        <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
         <div class="cart-add icon-add_circle" @click="addCart"></div>
 
     </div>
@@ -10,6 +10,7 @@
 
 <script>
 import Vue from 'vue';
+
 export default {
     props: {
         food: {
@@ -32,7 +33,7 @@ export default {
             this.food.count--; 
         }
     }
-};
+}
 </script>
 
 <style>
@@ -69,7 +70,8 @@ export default {
     width: 12px;
     line-height: 24px;
     text-align:center;
-    font-size: 10px;
+    font-weight: 700;
+    font-size: 13px;
     color: rgb(147, 153, 159);
 }
 .cart-add,.inner{

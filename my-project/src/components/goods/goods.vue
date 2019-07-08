@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
@@ -11,7 +12,7 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul >
-        <li v-for="(item,index) in goods" class="food-list food-list-hook" ref="foodListHook">
+        <li @click="selectFood(food)" v-for="(item,index) in goods" class="food-list food-list-hook" ref="foodListHook">
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
@@ -40,6 +41,9 @@
     </div>
     <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
+
+  <food :food="cartControl"></food>
+</div>
 </template>
 <script type="text/javascript">
 import BScroll from "better-scroll";
@@ -56,7 +60,8 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scrollY:0
+      scrollY:0,
+      selectFoods: {}
     };
   },
   computed: {

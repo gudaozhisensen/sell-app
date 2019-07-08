@@ -1,4 +1,6 @@
 <template>
+<div>
+
     <div class="shopCart">
         <div class="shop-content" @click="toggleList">
             <div class="content-left">
@@ -11,7 +13,8 @@
                 <div class="shop-price" :class="{'highLight':totalPrice > 0}">￥{{totalPrice}}元</div>
                 <div class="shop-desc">另需配送费￥{{deliveryPrice}}元</div>
             </div>
-            <div class="content-right">
+            <div class="content-right" @click.stop.prevent="pay">
+                <!-- .stop .prevent 阻止冒泡和默认事件 -->
                 <div class="shop-pay" :class="payClass">{{payDesc}}</div>
             </div>        
        </div>
@@ -19,9 +22,9 @@
         <div class="shopCart-list" v-show="listShow">
                 <div class="list-header">
                     <h1 class="shopCart-title">购物车</h1>
-                    <div> <span class="shopCart-empty">清空</span></div>
+                    <div> <span class="shopCart-empty" @click="empty">清空</span></div>
                 </div>
-                <div class="list-content">
+                <div class="list-content" ref="listContent">
                     <ul>
                         <li class="shopCart-food" v-for="food in selectFoods">                 
                                     <span class="shopCart-name">{{food.name}}</span>
@@ -36,11 +39,18 @@
                 </div>
             </div> 
     </div>
+    <transition name="fade">
+        <div class="list-mask" @click="hideList" v-show="listShow" ></div>
+    </transition>
+    
+
+</div>
     
 </template>
 
 <script>
 import cartcontrol from "@/components/cartControl/cartControl";
+import BScroll from "better-scroll";
 export default {
     //从父组件转递的数据,接受整个foods json数组     
     props: {
@@ -64,6 +74,7 @@ export default {
           fold: true
       }
   },
+ 
   components: {
       cartcontrol
   },
@@ -73,6 +84,23 @@ export default {
               return;
           }
           this.fold = !this.fold;
+      },
+      empty() {
+          this.selectFoods.forEach((food)=> {
+              food.count = 0; 
+          })
+      },
+      hideList() {
+          this.fold = true;
+      },
+      pay() {
+          if (this.totalPrice < this.minPrice) {
+              return;
+          } else {
+              window.alert(`${this.totalPrice}`);
+          }
+          
+
       }
   },
   computed: {
@@ -115,6 +143,18 @@ export default {
               return false;
           }
           let show = !this.fold;
+          if (show) {
+              this.$nextTick(()=> {
+                  if (!this.scroll) {
+                      this.scroll = new BScroll(this.$refs.listContent,{
+                      click:true
+                        });
+                  } else {
+                      this.scroll.refresh();
+                  }
+              
+        });
+          }
           return show;
       }
   }
@@ -122,6 +162,8 @@ export default {
 </script>
 
 <style>
+
+ 
     .shopCart{
         position: fixed;
         left: 0;
@@ -246,6 +288,7 @@ export default {
 
     .shopCart-title{
         float: left;
+        font-weight: 700;
         font-size: 14px;
         color: rgb(7, 17, 27);
     }
@@ -255,7 +298,7 @@ export default {
     
     .shopCart-empty{
         float: right;
-        font-size: 12px;
+        font-size: 12px;    
         color: rgb(0, 160, 220);
     }
     .list-content{
@@ -273,6 +316,7 @@ export default {
     }
     .shopCart-name{
         line-height: 24px;
+        font-weight: 700;
         font-size: 14px;
         color: rgb(7, 17, 27);
     }
@@ -281,7 +325,7 @@ export default {
         right: 90px;
         bottom: 12px;
         line-height: 24px;
-        font-weight: 700px;
+        font-weight: 700;
         color:rgb(240, 20, 20);
         font-size: 14px;
     }
@@ -289,5 +333,23 @@ export default {
         position: absolute;
         right: 0;
         bottom: 11px;
+    }
+
+    .list-mask{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 40;
+        transition: all 0.3s;
+        background: rgba( 7, 17, 27, 0.6);
+        opacity: 1;
+       
+    }
+    
+    .fade-enter, .fade-leave{
+        opacity: 0;
+        background: rgba(7, 17, 27, 0);
     }
 </style>
