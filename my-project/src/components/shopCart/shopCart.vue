@@ -26,7 +26,7 @@
                 </div>
                 <div class="list-content" ref="listContent">
                     <ul>
-                        <li class="shopCart-food" v-for="food in selectFoods">                 
+                        <li class="shopCart-food " v-for="food in selectFoods">                 
                                     <span class="shopCart-name">{{food.name}}</span>
                                     <div class="shopCart-price">
                                         <span>￥{{food.price}}</span>
@@ -312,7 +312,7 @@ export default {
         position: relative;
         padding: 12px 0;
         box-sizing: border-box;
-        border-bottom: 1px solid #ccc;
+        
     }
     .shopCart-name{
         line-height: 24px;

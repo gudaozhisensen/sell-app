@@ -12,11 +12,11 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul >
-        <li @click="selectFood(food)" v-for="(item,index) in goods" class="food-list food-list-hook" ref="foodListHook">
+        <li  v-for="(item,index) in goods" class="food-list food-list-hook" ref="foodListHook">
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item">
+            <li @click="selectFood(food)" v-for="food in item.foods" class="food-item border-1px">
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -42,7 +42,7 @@
     <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 
-  <food :food="cartControl"></food>
+  <!-- <food :food="cartControl"></food> -->
 </div>
 </template>
 <script type="text/javascript">
@@ -60,8 +60,8 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scrollY:0,
-      selectFoods: {}
+      scrollY:0
+      //  selectFood: {}
     };
   },
   computed: {
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     
-    _initScroll(){
+    _initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuWrapper,{
         click:true
       });
@@ -126,7 +126,7 @@ export default {
       })
       
     },
-    _calculatorHeight(){
+    _calculatorHeight() {
         //获得每个分类的高度,存到listHeight数组中，两个方法都可以，神坑！·
         // let foodList = this.$refs.foodListHook;
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
@@ -140,7 +140,7 @@ export default {
           
         }
     },
-    selectMenu(index){
+    selectMenu(index) {
       console.log(index);
         // if (!event._constructed) {
         //   return;
@@ -149,6 +149,9 @@ export default {
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el);
+    },
+    selectFood() {
+ 
     }
   
   }
@@ -221,7 +224,7 @@ export default {
       display: table-cell;
       vertical-align: middle;
       line-height: 15px;
-      // border-1px(rgba(7,17,27,0.1))
+       border-1px(rgba(7,17,27,0.1))
       width: 56px;
       font-size: 12px;
     }
