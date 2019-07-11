@@ -16,7 +16,7 @@
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectFood(food)" v-for="food in item.foods" class="food-item border-1px">
+            <li @click="selectedItem(food)" v-for="food in item.foods" class="food-item border-1px">
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -39,7 +39,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :select-foods="foodItem"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="food"></shopcart>
   </div>
 
   <!-- <food :food="cartControl"></food> -->
@@ -48,7 +48,8 @@
 <script type="text/javascript">
 import BScroll from "better-scroll";
 import shopcart from "@/components/shopCart/shopCart";
-import cartcontrol from "@/components/cartControl/cartControl"
+import cartcontrol from "@/components/cartControl/cartControl";
+import foods from "@/components/foods/foods"
 const ERR_OK = 0;
 export default {
   props: {
@@ -60,8 +61,8 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scrollY:0
-      //  selectFood: {}
+      scrollY:0,
+      foodItem: {}
     };
   },
   computed: {
@@ -106,7 +107,8 @@ export default {
   },
   components:{
     shopcart,
-    cartcontrol
+    cartcontrol,
+    foods
   },
   methods: {
     
@@ -126,6 +128,7 @@ export default {
       })
       
     },
+
     _calculatorHeight() {
         //获得每个分类的高度,存到listHeight数组中，两个方法都可以，神坑！·
         // let foodList = this.$refs.foodListHook;
@@ -140,6 +143,7 @@ export default {
           
         }
     },
+
     selectMenu(index) {
       console.log(index);
         // if (!event._constructed) {
@@ -150,8 +154,10 @@ export default {
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el);
     },
-    selectFood() {
- 
+
+    selectedItem(food) {
+        this.foodItem = food;
+        this.$refs.food.show();
     }
   
   }
