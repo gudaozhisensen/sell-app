@@ -1,7 +1,7 @@
 <template>
 <transition name="move">
     <div class="food" v-show="showFlag" ref="food">
-        <div class="food-content">
+        <div class="contents">
             <div class="image-header">
                 <img :src="food.image" alt="">
                 <div class="back" @click="hide()">
@@ -10,7 +10,7 @@
                 
             </div>
 
-            <div class="foods-content">
+            <div class="food-content">
                 <h1 class="food-title">{{food.name}}</h1>
                 <div class="food-detail">
                     <span class="food-sellCount">月售{{food.sellCount}}份</span>
@@ -19,7 +19,26 @@
                 <div class="food-price">
                    <span class="newPrice">￥{{food.price}}</span><span class="oldPrice" v-show="food.oldPrice" >￥{{food.oldPrice}}</span>
                 </div>
+
+            <div class="cartControl-wrapper">
+                <cartcontrol :food="food"></cartcontrol>
             </div>
+            <transition name="fade">
+                <div class="buy" @click.stop.prevent="addFirst()" v-show="!food.count || food.count===0">加入购物车</div>
+            </transition>
+            </div>
+            <split v-show="food.info"></split>
+            
+            <div class="info">
+                <h1 class="info-title">商品信息</h1>
+                <p class="info-text" v-show="food.info">{{food.info}}</p>
+            </div>
+
+             <split></split>
+             <div class="rating">
+                 <h1 class="rating-title">商品评价</h1>
+                 <ratingselect :rating="ratings"></ratingselect>
+             </div>
         </div>
     </div>
 </transition>
@@ -28,6 +47,15 @@
 
 <script>
 import Bscroll from 'better-scroll';
+import cartcontrol from '@/compenents/cartcontrol/cartcontrol';
+import cartcontrol from '@/compenents/split/split';
+import ratingselect from '@/compenents/ratingSelect/ratingSelect';
+import Vue from 'vue';
+
+ const POSTIVE  = 0;
+ const NEGATIVE = 1;
+ const ALL = 2;
+
 export default {
   props: {
       food:{
@@ -36,8 +64,21 @@ export default {
   },
   data() {
       return {
-          showFlag: false
+          showFlag: false,
+          selectType:ALL,
+          onlyContent: true,
+          desc:{
+              all: '全部',
+              positive: '推荐',
+              negative: '吐槽'
+          }
+
       }
+  },
+  components: {
+      cartcontrol,
+      split,
+      ratingselect
   },
   methods: {
       show() {
@@ -54,6 +95,9 @@ export default {
       },
       hide() {
           this.showFlag = false;
+      },
+      addFirst() {
+          Vue.set(this.food, 'count', 1);
       }
   },
 };
@@ -105,7 +149,8 @@ export default {
         font-size: 20px;
         color: #fff;
     }
-    .content{
+    .food-content{
+        position: relative;
         padding: 18px;
     }
     .food-title{
@@ -128,5 +173,45 @@ export default {
     .food-sellCount{
         margin-right: 12px;
     }
-
+    .cartControl-wrapper{
+        position: absolute;
+        bottom: 0;
+        right: 12px;
+    }
+    .buy{
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        z-index: 10;
+        line-height: 24px;
+        height: 24px;
+        padding: 0 12px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        font-size: 10px;
+        color: #fff;
+        background: rgb(0,160,220);
+    }
+    .fade-transition{
+        transition: all 0.2s;
+        opacity: 1;
+    }
+    .fade-enter,.fade-leave{
+        opacity: 0;
+    }
+    .info{
+         padding: 18px;
+    }
+    .info-title{
+       line-height: 14px;
+       margin-bottom: 6px;
+       font-size: 14px;
+       color: rgb(7, 17, 27);
+    }
+    .info-text{
+        line-height: 24px;
+        padding: 0 8px;
+        font-size: 12px;
+        color: rgb(77, 85, 93);
+    }
 </style>
