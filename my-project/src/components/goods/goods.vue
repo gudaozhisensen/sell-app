@@ -16,7 +16,7 @@
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectedItem(food)" v-for="food in item.foods" class="food-item border-1px">
+            <li @click="selectFood(food)" v-for="food in item.foods" class="food-item border-1px">
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -39,17 +39,17 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="foodItem"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="food"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 
-  <!-- <food :food="cartControl"></food> -->
+  <food :food="selectItem"></food>
 </div>
 </template>
 <script type="text/javascript">
 import BScroll from "better-scroll";
 import shopcart from "@/components/shopCart/shopCart";
 import cartcontrol from "@/components/cartControl/cartControl";
-import foods from "@/components/foods/food"
+import food from "@/components/foods/food";
 const ERR_OK = 0;
 export default {
   props: {
@@ -62,7 +62,7 @@ export default {
       goods: [],
       listHeight: [],
       scrollY:0,
-      foodItem: []
+      selectItem: {}
     };
   },
   computed: {
@@ -88,7 +88,6 @@ export default {
             }
           });
         });
-        console.log(foods);
         return foods;
     }
   },
@@ -109,7 +108,7 @@ export default {
   components:{
     shopcart,
     cartcontrol,
-    foods
+    food
   },
   methods: {
     
@@ -129,7 +128,6 @@ export default {
       })
       
     },
-
     _calculatorHeight() {
         //获得每个分类的高度,存到listHeight数组中，两个方法都可以，神坑！·
         // let foodList = this.$refs.foodListHook;
@@ -144,21 +142,14 @@ export default {
           
         }
     },
-
     selectMenu(index) {
       console.log(index);
-        // if (!event._constructed) {
-        //   return;
-        // }
-
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el);
     },
-
-    selectedItem(food) {
-        this.foodItem = food;
-        this.$refs.food.show();
+    selectFood() {
+ 
     }
   
   }
