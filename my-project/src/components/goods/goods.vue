@@ -49,7 +49,7 @@
 import BScroll from "better-scroll";
 import shopcart from "@/components/shopCart/shopCart";
 import cartcontrol from "@/components/cartControl/cartControl";
-import foods from "@/components/foods/foods"
+import foods from "@/components/foods/food"
 const ERR_OK = 0;
 export default {
   props: {
@@ -62,7 +62,7 @@ export default {
       goods: [],
       listHeight: [],
       scrollY:0,
-      foodItem: {}
+      foodItem: []
     };
   },
   computed: {
@@ -88,6 +88,7 @@ export default {
             }
           });
         });
+        console.log(foods);
         return foods;
     }
   },

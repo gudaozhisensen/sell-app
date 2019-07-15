@@ -47,9 +47,9 @@
 
 <script>
 import Bscroll from 'better-scroll';
-import cartcontrol from '@/compenents/cartcontrol/cartcontrol';
-import cartcontrol from '@/compenents/split/split';
-import ratingselect from '@/compenents/ratingSelect/ratingSelect';
+import cartcontrol from "@/components/cartControl/cartControl";
+import split from "@/components/split/split";
+import ratingselect from "@/components/ratingSelect/ratingSelect";
 import Vue from 'vue';
 
  const POSTIVE  = 0;
