@@ -37,7 +37,7 @@
              <split></split>
              <div class="rating">
                  <h1 class="rating-title">商品评价</h1>
-                 <ratingselect :rating="ratings"></ratingselect>
+                 <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
              </div>
         </div>
     </div>
@@ -83,6 +83,8 @@ export default {
   methods: {
       show() {
           this.showFlag = true;
+          this.selectType = ALL;
+          this.onlyContent = true;
           this.$nextTick(() =>{
               if (!this.scroll) {
                   this.scroll = new Bscroll(this.refs.food,{
@@ -213,5 +215,14 @@ export default {
         padding: 0 8px;
         font-size: 12px;
         color: rgb(77, 85, 93);
+    }
+    .rating{
+       padding-top: 18px; 
+    }
+    .rating-title{
+       line-height: 14px;
+       margin-left: 18px;
+       font-size: 14px;
+       color: rgb(7, 17, 27);
     }
 </style>
