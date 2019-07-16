@@ -4,7 +4,7 @@
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
         <li v-for="(item,index) in goods" class="menu-item" :class="{'current':currentIndex === index}" @click="selectMenu(index)">
-          <span class="text border-1px">
+          <span class="text">
           <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
            {{item.name}}</span>
         </li>
@@ -16,7 +16,7 @@
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectFood(food)" v-for="food in item.foods" class="food-item border-1px">
+            <li @click="selectedFood(food)" v-for="food in item.foods" class="food-item ">
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -148,8 +148,8 @@ export default {
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el);
     },
-    selectFood() {
- 
+    selectedFood(food) {
+        this.selectItem = food;
     }
   
   }
@@ -178,7 +178,7 @@ export default {
       width: 56px;
       line-height: 14px;
       padding: 0 12px;
-      border-1px(rgba(7, 17, 27, .1));
+      // border-1px(rgba(7, 17, 27, .1));
     }
     .current{
       z-index : 10;
@@ -222,7 +222,7 @@ export default {
       display: table-cell;
       vertical-align: middle;
       line-height: 15px;
-       border-1px(rgba(7,17,27,0.1))
+      //  border-1px(rgba(7,17,27,0.1))
       width: 56px;
       font-size: 12px;
     }
