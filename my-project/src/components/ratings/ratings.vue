@@ -67,7 +67,7 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 	border-right: 1px solid rgba(7, 17, 27, 0.2);
 }
 /* 适应iphone5做出的调整 only表示只在支持媒体查询的浏览器中表示 */
-@media only screen and(max-width:320px){
+@media (max-width:320px){
 	.overview-left{
 		flex: 0 0 120px;
 		width: 120px;
@@ -95,9 +95,9 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 	padding:6px 0 6px 24px;
 }
 /* 适应iphone5做出的调整 only表示只在支持媒体查询的浏览器中表示 */
-@media only screen and(max-width:320px){
+@media (max-width:320px){
 	.overview-right{
-		padding-left: 6px;
+		padding:0 0 0 6px;
 	}
 }
 

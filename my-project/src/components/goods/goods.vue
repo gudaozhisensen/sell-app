@@ -16,7 +16,7 @@
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectedFood(food)" v-for="food in item.foods" class="food-item ">
+            <li @click="selectedFood(food)" v-for="food in item.foods" class="food-item" ref="food">
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -150,6 +150,8 @@ export default {
     },
     selectedFood(food) {
         this.selectItem = food;
+        this.$refs.food.show();
+        console.log(typeof this.selectItem);
     }
   
   }
@@ -178,7 +180,7 @@ export default {
       width: 56px;
       line-height: 14px;
       padding: 0 12px;
-      // border-1px(rgba(7, 17, 27, .1));
+      border-1px(rgba(7, 17, 27, .1));
     }
     .current{
       z-index : 10;
@@ -222,7 +224,6 @@ export default {
       display: table-cell;
       vertical-align: middle;
       line-height: 15px;
-      //  border-1px(rgba(7,17,27,0.1))
       width: 56px;
       font-size: 12px;
     }

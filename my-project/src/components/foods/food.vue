@@ -1,6 +1,6 @@
 <template>
 <transition name="move">
-    <div class="food" v-show="showFlag" ref="food">
+    <div class="food" v-show="showFlag" >
         <div class="contents">
             <div class="image-header">
                 <img :src="food.image" alt="">
@@ -10,11 +10,11 @@
                 
             </div>
 
-            <div class="food-content">
+            <div class="foods-content">
                 <h1 class="food-title">{{food.name}}</h1>
                 <div class="food-detail">
                     <span class="food-sellCount">月售{{food.sellCount}}份</span>
-                    <span class="food-rating">haopingl{{food.rating}}</span>
+                    <span class="food-rating">好评率{{food.rating}}</span>
                 </div>
                 <div class="food-price">
                    <span class="newPrice">￥{{food.price}}</span><span class="oldPrice" v-show="food.oldPrice" >￥{{food.oldPrice}}</span>
@@ -37,7 +37,7 @@
              <split></split>
              <div class="rating">
                  <h1 class="rating-title">商品评价</h1>
-                 <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+                 <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :rating="food.ratings"></ratingselect>
              </div>
         </div>
     </div>
@@ -151,7 +151,7 @@ export default {
         font-size: 20px;
         color: #fff;
     }
-    .food-content{
+    .foods-content{
         position: relative;
         padding: 18px;
     }
@@ -177,9 +177,20 @@ export default {
     }
     .cartControl-wrapper{
         position: absolute;
-        bottom: 0;
+        bottom: 18px;
         right: 12px;
     }
+    .newPrice{
+        font-size: 14px;
+        color: rgb(240,20,20);
+            
+        	}
+    .oldPrice{
+        text-decoration: line-through;
+        padding-left: 8px;
+        font-size: 10px;
+        color: rgb(147,153,159);
+        	}
     .buy{
         position: absolute;
         right: 18px;
