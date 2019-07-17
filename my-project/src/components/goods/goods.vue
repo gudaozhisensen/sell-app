@@ -16,7 +16,7 @@
           <!-- ref 和 class 的方法都可以取得dom元素 -->
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li @click="selectedFood(food)" v-for="food in item.foods" class="food-item" ref="food">
+            <li @click="selectedFood(food)" v-for="food in item.foods" class="food-item" >
               <div class="food-icon">
                 <img height="57px" width="57px" :src="food.icon">
               </div>
@@ -42,7 +42,7 @@
     <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 
-  <food :food="selectItem"></food>
+  <food :food="selectItem" ref="food"></food>
 </div>
 </template>
 <script type="text/javascript">

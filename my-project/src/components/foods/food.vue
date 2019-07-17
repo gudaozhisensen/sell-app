@@ -1,6 +1,6 @@
 <template>
 <transition name="move">
-    <div class="food" v-show="showFlag" >
+    <div class="food" v-show="showFlag" ref="foodScroll">
         <div class="contents">
             <div class="image-header">
                 <img :src="food.image" alt="">
@@ -87,7 +87,7 @@ export default {
           this.onlyContent = true;
           this.$nextTick(() =>{
               if (!this.scroll) {
-                  this.scroll = new Bscroll(this.refs.food,{
+                  this.scroll = new Bscroll(this.$refs.foodScroll,{
                       click :true
                   });
               }else{
@@ -122,7 +122,7 @@ export default {
     }
 
     .move-enter,.move-leave{
-        transform: translate3d(100,0,0);
+        transform: translate3d(100%,0,0);
     }
     .image-header{
         position: relative;

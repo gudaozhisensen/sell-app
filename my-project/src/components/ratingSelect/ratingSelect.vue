@@ -1,9 +1,9 @@
 <template>
     <div class="ratingSelect">
         <div class="ratingType border-1px">
-            <span class="block positive" :class="{'active':selectType===2}">{{desc.all}}<span class="count">1</span></span>
-            <span class="block positive" :class="{'active':selectType===0}">{{desc.positive}}<span class="count">2</span></span>
-            <span class="block negative" :class="{'active':selectType===1}">{{desc.negative}}<span class="count">3</span></span>
+            <span class="block positive" :class="{'active_p':selectType===2}">{{desc.all}}<span class="count">1</span></span>
+            <span class="block positive" :class="{'active_p':selectType===0}">{{desc.positive}}<span class="count">2</span></span>
+            <span class="block negative" :class="{'active_n':selectType===1}">{{desc.negative}}<span class="count">3</span></span>
             <div class="switch" :class="{'on':onlyContent}">
                 <span class="icon-check_circle"></span>
                 <span class="rating-text">只看有内容的评价</span>
@@ -22,7 +22,7 @@ export default {
       rating: {
           type: Array,
           default() {
-              return {};
+              return [];
           }
       },
 
@@ -79,24 +79,24 @@ export default {
        background: rgba(0,160,220,0.2);
        
     }
-    /* .active{
+    .active_p{
         background: rgb(0,160,220);
-    } */
+    }
     
-    .nagative{
+    .negative{
         background: rgba(77,85,93,0.2);
        
     }
-     /* .active{
+     .active_n{
         background: rgb(77,85,93);
-    } */
+    }
     
     .switch{
-        padding: 12px 18px;
+        padding: 12px 18px 12px 0;
         line-height: 24px;
         border-bottom: 1px solid rgba(7,17,27,0.1);
         color: rgb(147,153,159);
-        font-size: 0px;
+        font-size: 0;
     }
     .on > .icon-check_circle{
         color: #00c850;
