@@ -1,10 +1,10 @@
 <template>
     <div class="ratingSelect">
         <div class="ratingType border-1px">
-            <span class="block positive" :class="{'active_p':selectType===2}">{{desc.all}}<span class="count">1</span></span>
-            <span class="block positive" :class="{'active_p':selectType===0}">{{desc.positive}}<span class="count">2</span></span>
-            <span class="block negative" :class="{'active_n':selectType===1}">{{desc.negative}}<span class="count">3</span></span>
-            <div class="switch" :class="{'on':onlyContent}">
+            <span @click="select(2)" class="block positive" :class="{'active_p':selectType===2}" >{{desc.all}}<span class="count"></span>{{rating.length}}</span>
+            <span  @click="select(0)" class="block positive" :class="{'active_p':selectType===0}">{{desc.positive}}<span class="count"></span>{{positives.length}}</span>
+            <span  @click="select(1)" class="block negative" :class="{'active_n':selectType===1}" >{{desc.negative}}<span class="count"></span>{{negatives.length}}</span>
+            <div @click="toggleContent" class="switch" :class="{'on':onlyContent}">
                 <span class="icon-check_circle"></span>
                 <span class="rating-text">只看有内容的评价</span>
             </div>
@@ -47,16 +47,38 @@ export default {
         }
     }
  
-  }
+  },
+  computed: {
+    //   过滤器
+        positives(){
+            return this.rating.filter((rating) =>{
+                return rating.rateType === POSTIVE;
+            });
+        },
+        negatives(){
+            return this.rating.filter((rating) =>{
+                return rating.rateType === NEGATIVE;
+            });
+        }    
+  },
+    methods: {
+        // 父子间通信，传递数据
+        select(type) {
+            this.selectType = type;
+            this.$emit('ratingtype.select',type);
+        },
+        toggleContent() {
+            this.onlyContent = !this.onlyContent;
+            this.$emit('content.toggle',this.onlyContent);
+        }
+    }
 }
 
 </script>
 
 <style>
 
-    .ratingSelect{
-
-    }
+  
     .ratingType{
         padding: 18px 0;
         margin: 0 18px;
@@ -81,6 +103,7 @@ export default {
     }
     .active_p{
         background: rgb(0,160,220);
+        color:#fff;
     }
     
     .negative{
@@ -89,6 +112,7 @@ export default {
     }
      .active_n{
         background: rgb(77,85,93);
+        color:#fff;
     }
     
     .switch{

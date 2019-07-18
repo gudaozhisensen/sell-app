@@ -38,6 +38,17 @@
              <div class="rating">
                  <h1 class="rating-title">商品评价</h1>
                  <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :rating="food.ratings"></ratingselect>
+                 <div class="rating-wrapper">
+                     <ul v-show="food.ratings && food.rating.length">
+                         <li v-for="rating in food.ratings" class="rating-item">
+                             <div class="user">
+                                 <span class="user_name">{{ratings.username}}</span>
+                                  <img src="" alt="" class="user_avatar">
+                             </div>
+                         </li>
+                     </ul>
+                     <div class="no-rating" v-show="!food.ratings || !food.ratings.length"></div>
+                 </div>
              </div>
         </div>
     </div>
@@ -65,7 +76,7 @@ export default {
   data() {
       return {
           showFlag: false,
-          selectType:ALL,
+          selectType: ALL,
           onlyContent: true,
           desc:{
               all: '全部',

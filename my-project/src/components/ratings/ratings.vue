@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<split></split>
-			<ratingselect></ratingselect>
+		 		<ratingselect :select-type="selectType" :only-content="onlyContent" ></ratingselect>
 		</div>
 	</div>
 </template>
@@ -33,17 +33,34 @@
 import star from '../star/star';
 import split from "@/components/split/split";
 import ratingselect from "@/components/ratingSelect/ratingSelect";
+
+ const POSTIVE  = 0;
+ const NEGATIVE = 1;
+ const ALL = 2;
+
 	export default {
 		props:{
 			seller: {
 				type: Object
 			}
 		},
+		data() {
+			return {
+				 showFlag: false,
+				selectType: ALL,
+				onlyContent: true
+			}
+		},
 		components:{
 			star,
 			ratingselect,
 			split
-		}
+		},
+		created() {
+			this.$http.get('/api/ratings').then((response )=>{
+				response  = response.body;
+			});
+		},
 	}
 	
 </script>
