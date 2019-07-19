@@ -43,11 +43,16 @@
                          <li v-for="rating in food.ratings" class="rating-item">
                              <div class="user">
                                  <span class="user_name">{{ratings.username}}</span>
-                                  <img src="" alt="" class="user_avatar">
+                                  <img src="" alt="" class="user_avatar" width="12" height="12" :src="rating.avatar">
                              </div>
+                             <div class="user_time">{{rating.rateTime}}</div>
                          </li>
                      </ul>
                      <div class="no-rating" v-show="!food.ratings || !food.ratings.length"></div>
+                     <p class="user_text">
+                         <!-- 自定义绑定class评价icon根据ratingType来 -->
+                         <span :class="{'icon-thumb_up':ratingType===0,'icon-thumb_dowm':ratingType===1}"></span>{{ratings.text}}
+                     </p>
                  </div>
              </div>
         </div>
@@ -246,5 +251,37 @@ export default {
        margin-left: 18px;
        font-size: 14px;
        color: rgb(7, 17, 27);
+    }
+    .rating-wrapper{
+        padding: 0 18px;
+    }
+    .rating-item{
+        position: relative;
+        padding: 16px 0;
+        font-size: 0;
+        border-bottom: 1px solid rgba(7, 17, 27, 0.1);
+    }
+    .rating-item>.user{
+        position: absolute;
+        right: 0;
+        margin-right: 6px;
+        top: 16px;
+        line-height: 12px;
+        font-size: 0;
+        
+    }
+    .user>.user_name{
+        display: inline-block;
+        vertical-align: top;
+        font-size: 10px;
+        color: rgb(147, 153, 159);
+    }
+    .user>.user_avatar{
+        border-radius: 50%;
+    }
+    .user_time{
+        line-height: 12px;
+        font-size: 10px;
+        color: 
     }
 </style>
