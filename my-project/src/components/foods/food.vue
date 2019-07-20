@@ -39,20 +39,23 @@
                  <h1 class="rating-title">商品评价</h1>
                  <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :rating="food.ratings"></ratingselect>
                  <div class="rating-wrapper">
-                     <ul v-show="food.ratings && food.rating.length">
+                     <ul v-show="food.ratings && food.ratings.length">
                          <li v-for="rating in food.ratings" class="rating-item">
                              <div class="user">
-                                 <span class="user_name">{{ratings.username}}</span>
-                                  <img src="" alt="" class="user_avatar" width="12" height="12" :src="rating.avatar">
+                                 <span class="user_name">{{rating.username}}</span>
+                                  <img class="user_avatar" width="12" height="12" :src="rating.avatar">
                              </div>
-                             <div class="user_time">{{rating.rateTime}}</div>
+                            <div class="user_time">{{rating.rateTime}}</div>
+                            
+                            <p class="user_text">
+                            <!-- 自定义绑定class评价icon根据ratingType来 -->
+                            <span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_dowm':rating.rateType===1}"></span>{{rating.text}}
+                        </p>
                          </li>
+                        
                      </ul>
                      <div class="no-rating" v-show="!food.ratings || !food.ratings.length"></div>
-                     <p class="user_text">
-                         <!-- 自定义绑定class评价icon根据ratingType来 -->
-                         <span :class="{'icon-thumb_up':ratingType===0,'icon-thumb_dowm':ratingType===1}"></span>{{ratings.text}}
-                     </p>
+                     
                  </div>
              </div>
         </div>
@@ -280,8 +283,25 @@ export default {
         border-radius: 50%;
     }
     .user_time{
+        margin-bottom: 6px;
         line-height: 12px;
         font-size: 10px;
-        color: 
+        color: rgb(147, 153, 159);
+    }
+    .user_text{
+        line-height: 16px;
+        font-size: 12px;
+        color: rgb(7, 17, 27);
+    }
+    .icon-thumb_up,.icon-thumb_dowm{
+        margin-right: 4px;
+        line-height: 24px;
+        font-size: 12px
+    }
+    .icon-thumb_up{
+        color: rgb(0, 160, 220);
+    }
+    .icon-thumb_dowm{
+        color: rgb(147, 153, 159);
     }
 </style>
