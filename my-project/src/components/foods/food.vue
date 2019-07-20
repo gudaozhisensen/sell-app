@@ -49,7 +49,7 @@
                             
                             <p class="user_text">
                             <!-- 自定义绑定class评价icon根据ratingType来 -->
-                            <span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_dowm':rating.rateType===1}"></span>{{rating.text}}
+                            <span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>{{rating.text}}
                         </p>
                          </li>
                         
@@ -293,7 +293,7 @@ export default {
         font-size: 12px;
         color: rgb(7, 17, 27);
     }
-    .icon-thumb_up,.icon-thumb_dowm{
+    .icon-thumb_up,.icon-thumb_down{
         margin-right: 4px;
         line-height: 24px;
         font-size: 12px
@@ -301,7 +301,7 @@ export default {
     .icon-thumb_up{
         color: rgb(0, 160, 220);
     }
-    .icon-thumb_dowm{
+    .icon-thumb_down{
         color: rgb(147, 153, 159);
     }
 </style>
