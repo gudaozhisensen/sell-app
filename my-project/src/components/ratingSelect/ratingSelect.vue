@@ -1,10 +1,10 @@
 <template>
     <div class="ratingSelect">
         <div class="ratingType border-1px">
-            <span @click="select(2)" class="block positive" :class="{'active_p':selectType===2}" >{{desc.all}}<span class="count"></span>{{rating.length}}</span>
-            <span  @click="select(0)" class="block positive" :class="{'active_p':selectType===0}">{{desc.positive}}<span class="count"></span>{{positives.length}}</span>
-            <span  @click="select(1)" class="block negative" :class="{'active_n':selectType===1}" >{{desc.negative}}<span class="count"></span>{{negatives.length}}</span>
-            <div @click="toggleContent" class="switch" :class="{'on':onlyContent}">
+            <span @click="select(2)" class="block positive" :class="{'active_p':foodSelectType===2}" >{{desc.all}}<span class="count"></span>{{rating.length}}</span>
+            <span  @click="select(0)" class="block positive" :class="{'active_p':foodSelectType===0}">{{desc.positive}}<span class="count"></span>{{positives.length}}</span>
+            <span  @click="select(1)" class="block negative" :class="{'active_n':foodSelectType===1}" >{{desc.negative}}<span class="count"></span>{{negatives.length}}</span>
+            <div @click="toggleContent" class="switch" :class="{'on':foodOnlyContent}">
                 <span class="icon-check_circle"></span>
                 <span class="rating-text">只看有内容的评价</span>
             </div>
@@ -25,7 +25,6 @@ export default {
               return [];
           }
       },
-
      selectType: {
         type: Number,
         default: ALL
@@ -42,11 +41,18 @@ export default {
             return {
                 all: '全部',
                 positive: '满意',
-                negative: '不满意'
+                negative: '不满意'  
             }   
         }
     }
  
+  },
+  data() {
+      return {
+          foodShowFlag: this.showFlag,
+          foodSelectType: this.selectType,
+          foodOnlyContent: this.onlyContent
+      }
   },
   computed: {
     //   过滤器
@@ -64,12 +70,21 @@ export default {
     methods: {
         // 父子间通信，传递数据
         select(type) {
-            this.selectType = type;
-            this.$emit('ratingtype.select',type);
+            this.foodSelectType = type;
+             this.$emit('ratingtype-select',type);
         },
-        toggleContent() {
-            this.onlyContent = !this.onlyContent;
-            this.$emit('content.toggle',this.onlyContent);
+        toggleContent(foodOnlyContent) {
+            this.foodOnlyContent = !this.foodOnlyContent;
+            this.$emit('content-toggle',this.foodOnlyContent);
+        }
+    },
+    watch: {
+        onlyContent(type){
+            this.foodOnlyContent = type;
+        },
+        selectType(type){
+            this.foodSelectType = type;
+            
         }
     }
 }

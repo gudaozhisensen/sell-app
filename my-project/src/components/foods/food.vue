@@ -37,10 +37,10 @@
              <split></split>
              <div class="rating">
                  <h1 class="rating-title">商品评价</h1>
-                 <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :rating="food.ratings"></ratingselect>
+                 <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :rating="food.ratings" @ratingtype-select="ratingtypeSelect" @content-toggle="contentToggle"></ratingselect>
                  <div class="rating-wrapper">
                      <ul v-show="food.ratings && food.ratings.length">
-                         <li v-for="rating in food.ratings" class="rating-item">
+                         <li v-for="rating in food.ratings" class="rating-item" v-show="needShow(rating.ratingType,rating.text)">
                              <div class="user">
                                  <span class="user_name">{{rating.username}}</span>
                                   <img class="user_avatar" width="12" height="12" :src="rating.avatar">
@@ -79,13 +79,15 @@ export default {
   props: {
       food:{
           type: Object
-      }
+      },
+
   },
   data() {
       return {
           showFlag: false,
           selectType: ALL,
           onlyContent: true,
+
           desc:{
               all: '全部',
               positive: '推荐',
@@ -94,16 +96,17 @@ export default {
 
       }
   },
+
   components: {
       cartcontrol,
       split,
       ratingselect
   },
   methods: {
-      show() {
-          this.showFlag = true;
-          this.selectType = ALL;
-          this.onlyContent = true;
+      show() {        
+           this.showFlag = true;
+           this.selectType = ALL;
+           this.onlyContent = false;
           this.$nextTick(() =>{
               if (!this.scroll) {
                   this.scroll = new Bscroll(this.$refs.foodScroll,{
@@ -119,8 +122,37 @@ export default {
       },
       addFirst() {
           Vue.set(this.food, 'count', 1);
+      },
+      needShow(type,text){
+          if(this.onlyContent && !text){
+              return false;
+          }
+          if(this.selectType === ALL){
+              return true;
+              
+          }else{
+              console.log(this.selectType);
+              return type === this.selectType; 
+               
+          }
+         
+      },
+    //   父子间通信。通过$emit(子组件) 和  @(父组件)
+      ratingtypeSelect(type){
+          this.selectType = type;
+           this.$nextTick(()=>{
+              this.scroll.refresh();
+          });
+        //   return this.selectType;
+      },
+      contentToggle(onlyContent){
+          this.onlyContent = !this.onlyContent;
+          this.$nextTick(()=>{
+              this.scroll.refresh();
+          });
+           
       }
-  },
+  }
 };
 </script>
    
@@ -295,7 +327,7 @@ export default {
     }
     .icon-thumb_up,.icon-thumb_down{
         margin-right: 4px;
-        line-height: 24px;
+        line-height: 16px;
         font-size: 12px
     }
     .icon-thumb_up{

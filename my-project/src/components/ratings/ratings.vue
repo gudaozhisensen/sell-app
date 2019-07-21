@@ -46,7 +46,7 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 		},
 		data() {
 			return {
-				 showFlag: false,
+				showFlag: false,
 				selectType: ALL,
 				onlyContent: true
 			}
