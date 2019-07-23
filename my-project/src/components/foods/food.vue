@@ -45,7 +45,7 @@
                                  <span class="user_name">{{rating.username}}</span>
                                   <img class="user_avatar" width="12" height="12" :src="rating.avatar">
                              </div>
-                            <div class="user_time">{{rating.rateTime}}</div>
+                            <div class="user_time">{{rating.rateTime | formarDate}}</div>
                             
                             <p class="user_text">
                             <!-- 自定义绑定class评价icon根据ratingType来 -->
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import {forMatDate} from 'common/js/date.js'; //export 的是function
 import Bscroll from 'better-scroll';
 import cartcontrol from "@/components/cartControl/cartControl";
 import split from "@/components/split/split";
@@ -154,7 +155,14 @@ export default {
           });
            
       }
-  }
+      
+  },
+  filters:{
+          formarDate(time){
+              let date = new Date(time);
+              return forMatDate(date,'yyyy-MM-dd hh:mm');
+          }
+      }
 };
 </script>
    
