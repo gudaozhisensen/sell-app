@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import {forMatDate} from 'common/js/date.js'; //export 的是function
+import {formarDate} from '@/common/js/date.js'; //export 的是function
 import Bscroll from 'better-scroll';
 import cartcontrol from "@/components/cartControl/cartControl";
 import split from "@/components/split/split";
@@ -160,7 +160,7 @@ export default {
   filters:{
           formarDate(time){
               let date = new Date(time);
-              return forMatDate(date,'yyyy-MM-dd hh:mm');
+              return formarDate(date,'yyyy-MM-dd hh:mm');
           }
       }
 };

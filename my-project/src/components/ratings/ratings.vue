@@ -25,7 +25,23 @@
 				</div>
 			</div>
 			<split></split>
-		 		<ratingselect :select-type="selectType" :only-content="onlyContent" ></ratingselect>
+		 		<ratingselect :select-type="selectType" :only-content="onlyContent" :rating="ratings"></ratingselect>
+				<div class="ratings-wrapper">
+					<ul>
+						<li v-for="rating in ratings" class="ratingItem">
+							<div class="ratings-avatar">
+								<img :src="rating.avatar" alt="">
+							</div>
+							<div class="rating content">
+								<h1 class="rating name">{{rating.username}}</h1>
+								<div class="star-wrapper">
+									<star size="24" ;score="rating.score"></star>
+									<span class="delivery" v-show="rating.deliveryTime">{{rating.deliveryTime}}</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
 		</div>
 	</div>
 </template>
@@ -34,11 +50,11 @@ import star from '../star/star';
 import split from "@/components/split/split";
 import ratingselect from "@/components/ratingSelect/ratingSelect";
 
- const POSTIVE  = 0;
- const NEGATIVE = 1;
+ 
  const ALL = 2;
+ const ERRO_OK = 0;
 
-	export default {
+	export default { 
 		props:{
 			seller: {
 				type: Object
@@ -46,9 +62,9 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 		},
 		data() {
 			return {
-				showFlag: false,
 				selectType: ALL,
-				onlyContent: true
+				onlyContent: true,
+				ratings:[]
 			}
 		},
 		components:{
@@ -59,6 +75,9 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 		created() {
 			this.$http.get('/api/ratings').then((response )=>{
 				response  = response.body;
+				if(response.errno === ERRO_OK ){
+					this.ratings = response.data;
+				}
 			});
 		},
 	}
