@@ -1,5 +1,5 @@
 <template>
-	<div class="ratings">
+	<div class="ratings" ref="ratings">
 		<div class="rating-content">
 			<div class="overview">
 				<div class="overview-left">
@@ -28,17 +28,26 @@
 		 		<ratingselect :select-type="selectType" :only-content="onlyContent" :rating="ratings"></ratingselect>
 				<div class="ratings-wrapper">
 					<ul>
-						<li v-for="rating in ratings" class="ratingItem">
+						<li v-for="rating in ratings" class="rating-item">
 							<div class="ratings-avatar">
-								<img :src="rating.avatar" alt="">
+								<img :src="rating.avatar" alt="" width="28" height="28">
 							</div>
-							<div class="rating content">
-								<h1 class="rating name">{{rating.username}}</h1>
-								<div class="star-wrapper">
-									<star size="24" ;score="rating.score"></star>
-									<span class="delivery" v-show="rating.deliveryTime">{{rating.deliveryTime}}</span>
+							<div class="rating-content">
+								<h1 class="rating-name">{{rating.username}}</h1>
+								<div class="ratingStar-wrapper">
+									<star :size="24" :score="rating.score"></star>
+									<span class="delivery" >{{rating.deliveryTime}}</span>
+								</div>
+								<p class="rating-text">{{rating.text}}</p>
+								<div class="recommend" v-show="rating.recommend && rating.recommend.length">
+									<span class="icon-thumb_up"></span>
+									<span class="item" v-for="item in rating.recommend">{{item}}</span>
+								</div>
+								<div class="rating-time">
+									{{rating.rateTime | formarDate}}
 								</div>
 							</div>
+							
 						</li>
 					</ul>
 				</div>
@@ -46,7 +55,9 @@
 	</div>
 </template>
 <script type="text/javascript">
+import {formarDate} from '@/common/js/date.js'; 
 import star from '../star/star';
+import Bscroll from 'better-scroll';
 import split from "@/components/split/split";
 import ratingselect from "@/components/ratingSelect/ratingSelect";
 
@@ -79,7 +90,22 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 					this.ratings = response.data;
 				}
 			});
+			this.$nextTick(() =>{
+              if (!this.scroll) {
+                  this.scroll = new Bscroll(this.$refs.ratings,{
+                      click :true
+                  });
+              }else{
+                  this.scroll.refresh();
+              }
+          });
 		},
+  filters:{
+          formarDate(time){
+              let date = new Date(time);
+              return formarDate(date,'yyyy-MM-dd hh:mm');
+          }
+      }
 	}
 	
 </script>
@@ -168,5 +194,72 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 	font-size: 12px;
 	color: rgb(147, 153, 159);
 	
+}
+.ratings-wrapper{
+	padding: 0 18px;
+	
+
+}
+.rating-item{
+	display: flex;
+	padding: 18px 0;
+	border-bottom: 1px solid rgba(7, 17, 27,0.1);
+}
+.ratings-avatar{
+	flex:0 0 28px;
+	width: 28px;
+	margin-right:12px;
+	
+}
+.ratings-avatar img{
+	border-radius: 50%; 
+}
+.rating-content{
+	flex: 1;
+	position: relative;
+}
+.rating-name{
+	margin-bottom: 4px;
+	line-height: 12px;
+	font-size: 10px;
+	color: rgb(7, 17, 27);
+}
+.ratingStar-wrapper{
+	margin-bottom: 6px;
+	font-size: 0px;
+}
+.delivery{
+	display: inline-block;
+	margin-right: 6px;
+	vertical-align: top;
+	line-height: 12px;
+	font-size: 10px;
+	color: rgb(147, 153, 159);
+}
+.rating-text{
+	margin-bottom: 8px;
+	line-height: 18px;
+	color: rgb(7, 17, 27);
+	font-size: 12px;
+}
+.recommend{
+	line-height: 16px;
+	font-size: 0;
+}
+.recommend .icon-thumb_up, .item{
+	display: inline-block;
+	margin: 0 8px 4px 0; 
+	font-size: 9px;
+	
+}
+.recommend .icon-thumb_up{
+	 color: rgb(0, 160, 220);
+}
+.item{
+	padding: 0 6px;
+	border: 1px solid rgba(7, 17, 27,0.1);
+	border-radius: 1px;
+	color: rgb(147, 153, 159);
+	background: #fff;
 }
 </style>
