@@ -25,10 +25,10 @@
 				</div>
 			</div>
 			<split></split>
-		 		<ratingselect :select-type="selectType" :only-content="onlyContent" :rating="ratings"></ratingselect>
+		 		<ratingselect :select-type="selectType" :only-content="onlyContent" :rating="ratings" @ratingtype-select="ratingtypeSelect" @content-toggle="contentToggle"></ratingselect>
 				<div class="ratings-wrapper">
 					<ul>
-						<li v-for="rating in ratings" class="rating-item">
+						<li v-for="rating in ratings" class="rating-item" v-show="needShow(rating.ratingType,rating.text)">
 							<div class="ratings-avatar">
 								<img :src="rating.avatar" alt="" width="28" height="28">
 							</div>
@@ -100,13 +100,40 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
               }
           });
 		},
+		methods: {
+			needShow(type,text){
+				if(this.onlyContent && !text){
+					return false;
+					}
+				if(this.selectType === ALL){
+					return true;	
+				}else{
+					console.log(this.selectType);
+					return type === this.selectType; 	
+					}	
+			},
+			//   父子间通信。通过$emit(子组件) 和  @(父组件)
+			ratingtypeSelect(type){
+				this.selectType = type;
+				this.$nextTick(()=>{
+					this.scroll.refresh();
+				});
+			},
+			contentToggle(onlyContent){
+				this.onlyContent = !this.onlyContent;
+				this.$nextTick(()=>{
+					this.scroll.refresh();
+				});
+				
+			}
+		},
   filters:{
           formarDate(time){
               let date = new Date(time);
               return formarDate(date,'yyyy-MM-dd hh:mm');
           }
       }
-	}
+}
 	
 </script>
 <style type="text/css">
@@ -261,5 +288,13 @@ import ratingselect from "@/components/ratingSelect/ratingSelect";
 	border-radius: 1px;
 	color: rgb(147, 153, 159);
 	background: #fff;
+}
+.rating-time{
+	position: absolute;
+	top: 0;
+	right: 0;
+	line-height: 12px;
+	font-size: 10px;
+	color: rgb(147, 153, 159);
 }
 </style>
