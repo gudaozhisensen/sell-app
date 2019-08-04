@@ -41,8 +41,7 @@
 				<ul v-if="seller.supports" class="supports">
               <li class="support-item" v-for="(item,index) in seller.supports">
                 <span class="icon" :class="classMap[seller.supports[index].type]"></span>
-                <span class="text">{{seller.supports[index].description}}</span>
-              </li>
+                <span class="text">{{seller.supports[index].description}}</span></li>
             </ul>
 			<div class="favorite">
 				<span class="icon-favorite" :class="active"></span>
@@ -76,21 +75,20 @@
 			star,
 			split
 		},
-		created() {
-			this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-		},
+		 created() {
+    		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+  },
 		mounted() {
 			this.$nextTick(() =>{
               if (!this.scroll) {
-                  this.scroll = new Bscroll(this.$refs.ratings,{
+                  this.scroll = new Bscroll(this.$refs.seller,{
                       click :true
                   });
               }else{
                   this.scroll.refresh();
               }
           });
-		}
-		
+		}	
 	}
 </script>
 <style type="text/css" lang="stylus" rel="stylesheet/stylus">
@@ -141,7 +139,7 @@
 		text-align: center;
 		border-right: 1px solid rgba(7, 17, 27, 0.1);
 	}
-	.block :last-child{
+	.block:last-child{
 		border: 0;
 	}
 	.remark>h2{
@@ -161,6 +159,7 @@
 
 	.bulletin{
 		padding: 18px 18px 0 18px;
+		width :auto;
 	}
 	.bulletin>.title{
 		margin-bottom: 8px;
@@ -172,44 +171,45 @@
 		padding: 0 12px 16px 12px;
 		border-bottom: 1px solid rgba(7, 17, 27, 0.1);
 	}
-	.bulletin>.content{
+	.bulletin>.content-wrapper>.content{
 		line-height: 24px;
-		font-size: 24px;
+		font-size: 12px;
+		margin-left: 0;
 		color: rgb(240,20,20);
 	}
 	.bulletin>.support>.support-item{
 		padding: 16px 12px;
-		font-size: 0;
+		font-size: 0;  
 		border-bottom: 1px solid rgba(7, 17, 27, 0.1);
 	}
 
-	.supports>.icon{
-		height: 12px;
-		width: 12px;
+	.support-item>.icon{
 		display: inline-block;
+		height: 16px;
+		width: 16px;
 		vertical-align: top;
-		margin-right: 4px;
-		background-size: 12px 12px;
+		margin-right: 6px;
+		background-size: 16px 16px;
 		background-repeat: no-repeat;
 	}
-	.decrease {
-		bg-image('decrease_4');
-	}
-	.discount {
-		bg-image('discount_4');
-	}
+	&.decrease {
+        bg-image('decrease_4');
+      }
+      &.discount {
+        bg-image('discount_4');
+      }
 
-	.guarantee {
-		bg-image('guarantee_4');
-	}
+      &.guarantee {
+        bg-image('guarantee_4');
+      }
 
-	.invoice {
-		bg-image('invoice_4');
-	}
+      &.invoice {
+        bg-image('invoice_4');
+      }
 
-	.special {
-		bg-image('special_4');
-	}
+      &.special {
+        bg-image('special_4');
+      }
 	.supports>.text{
 		line-height: 24px;
 		font-size: 12px;

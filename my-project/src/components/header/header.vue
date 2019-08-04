@@ -176,6 +176,7 @@ export default {
     margin-right: 4px;
     background-size: 12px 12px;
     background-repeat: no-repeat;
+    font-size: 12px;
   }
   .decrease {
     bg-image('decrease_1');
@@ -367,7 +368,7 @@ export default {
 
       &.special {
         bg-image('special_2');
-      }
+      } 
     }
     .text {
       line-height: 16px;
