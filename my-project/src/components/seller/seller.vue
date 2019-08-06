@@ -28,6 +28,11 @@
 						</div>
 					</li>
 				</ul>
+
+					<div class="favorite" @click="toggleFavorite">
+						<span class="icon-favorite" :class="active"></span>
+						<span class="text">{{favoriteText}}</span>
+					</div>
 			</div>
 			
 			<split></split>
@@ -43,16 +48,13 @@
                 <span class="icon" :class="classMap[seller.supports[index].type]"></span>
                 <span class="text">{{seller.supports[index].description}}</span></li>
             </ul>
-			<div class="favorite">
-				<span class="icon-favorite" :class="active"></span>
-				<span class="text">{{favoriteText}}</span>
-			</div>
+		
 			</div>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-
+	import {saveToLocal, loadFromLocal} from '@/common/js/store.js';
 	import star from '../star/star';
 	import split from "@/components/split/split";
 	import Bscroll from 'better-scroll';
@@ -65,11 +67,15 @@
 		},
 		data() {
 			return {
-				favorite: false,
+				favorite: (()=>{
+					return loadFromLocal(this.seller.id, 'favorite', false)
+				})()
 			}
 		},
 		computed: {
-			
+			favoriteText(){
+				return this.favorite ? '已收藏' : '收藏',
+			}
 		},
 		components: {
 			star,
@@ -88,7 +94,14 @@
                   this.scroll.refresh();
               }
           });
-		}	
+		},
+		methods: {
+			toggleFavorite(){
+				this.favorite = !this.favorite;
+				localStorage.favorite = this.favorite;
+				saveToLocal(this.seller.id, 'favorite', this.favorite);
+			}
+		}
 	}
 </script>
 <style type="text/css" lang="stylus" rel="stylesheet/stylus">
@@ -104,7 +117,29 @@
 		overflow: hidden;
 	}
 	.seller-overview{
+		position relative;
 		padding: 18px;	
+	}
+	.seller-overview > .favorite{
+		position: absolute;
+		width:50px;
+		right: 11px;
+		top: 18px;
+	}
+	.favorite >.icon-favorite{
+		display: block;
+		margin-bottom: 4px;
+		line-height: 24px;
+		color: #d4d6d9;
+		font-size: 24px;
+	} 
+	.favorite > .active{
+		color: red;
+	}
+	.favorite > .text{
+		line-height: 10px;
+		font-size: 10px;
+		color: rgb(77, 85, 93);
 	}
 	.seller-title{
 		margin-bottom: 8px;
@@ -192,22 +227,22 @@
 		background-size: 16px 16px;
 		background-repeat: no-repeat;
 	}
-	&.decrease {
+	.decrease {
         bg-image('decrease_4');
       }
-      &.discount {
+      .discount {
         bg-image('discount_4');
       }
 
-      &.guarantee {
+      .guarantee {
         bg-image('guarantee_4');
       }
 
-      &.invoice {
+      .invoice {
         bg-image('invoice_4');
       }
 
-      &.special {
+      .special {
         bg-image('special_4');
       }
 	.supports>.text{

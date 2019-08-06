@@ -13,7 +13,7 @@
       </div>
     </div>
     <keep-alive>
-      <router-view :seller="seller"></router-view>
+       <router-view :seller="seller"></router-view>
     </keep-alive>
   </div>
 </template>
@@ -21,22 +21,31 @@
 <script type="text/javascript">
 const ERR_OK = 0;
 import header from './components/header/header'
-
+import {urlParse} from '@/common/js/util.js'
 export default {
   data() {
     return {
-      seller: {}
+      seller: {
+        id:(() => {
+          let queryParam = urlParse();
+          console.log(queryParam);
+          return queryParam.id;
+        })()
+      }
     }
   },
   created() {
     {
       // GET /someUrl 对象初始化的添加数据,数据传递的阶段
-      this.$http.get('/api/seller').then(response => {
+      this.$http.get('/api/seller?id=' + this.seller.id).then(response => {
         // get body data
         response = response.body;
         if (response.errno === ERR_OK) {
           this.seller = response.data;
           // console.log(this.seller);
+
+          // 提供的assign方法来进行数据复制
+          this.seller = Object.assign({}, this.seller);
         }
       }, response => {
         // error callback
