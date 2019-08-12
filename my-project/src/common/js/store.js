@@ -21,11 +21,11 @@ export function loadFromLocal(id,key,def) {
     if (!seller) {
         return def;
     }
-    seller = jSON.parse(seller)[id];
+    seller = JSON.parse(seller)[id];
     if (!seller) {
         return def;
     }
 
     let ret = seller[key];
-    return det || ref;
+    return def || ret;
 };

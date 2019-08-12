@@ -28,7 +28,7 @@ export default {
       seller: {
         id:(() => {
           let queryParam = urlParse();
-          console.log(queryParam);
+          console.log(queryParam.id);
           return queryParam.id;
         })()
       }
@@ -95,3 +95,4 @@ export default {
 }
 
 </style>
+

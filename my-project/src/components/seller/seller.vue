@@ -30,9 +30,9 @@
 				</ul>
 
 					<div class="favorite" @click="toggleFavorite">
-						<span class="icon-favorite" :class="active"></span>
+						<span class="icon-favorite" :class="{'active':this.favorite}"></span>
 						<span class="text">{{favoriteText}}</span>
-					</div>
+					</div>·
 			</div>
 			
 			<split></split>
@@ -74,7 +74,7 @@
 		},
 		computed: {
 			favoriteText(){
-				return this.favorite ? '已收藏' : '收藏',
+				return this.favorite ? '已收藏' : '收藏';
 			}
 		},
 		components: {
@@ -125,6 +125,7 @@
 		width:50px;
 		right: 11px;
 		top: 18px;
+		text-align: center;
 	}
 	.favorite >.icon-favorite{
 		display: block;
@@ -250,5 +251,5 @@
 		font-size: 12px;
 		color: rgb(7, 17, 27);
 	}
-
+	
 </style>
